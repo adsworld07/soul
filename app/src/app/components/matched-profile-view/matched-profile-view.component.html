@@ -1,0 +1,98 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <!-- Loading State -->
+  <div *ngIf="loading" class="flex flex-col items-center justify-center py-16">
+    <div class="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto"></div>
+    <p class="mt-6 text-gray-600 text-lg">Loading application details...</p>
+  </div>
+  <a
+  [routerLink]="['/job/manage', jobId]"
+  class="inline-flex items-center m-1 px-3 py-1.5 text-sm rounded-full border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 transition-all duration-200 hover:shadow-md"
+>
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
+</svg>
+ back
+</a>
+  <!-- Main Content -->
+  <div class="space-y-8">
+   <!-- Header Section -->
+<header class="bg-gradient-to-r from-indigo-50 via-white to-purple-50  rounded-xl shadow-lg p-6">
+  <!-- Title and Job Info -->
+  <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+    <div class="space-y-2">
+      <div class="flex items-center gap-3">
+        <h1 class="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+          JobVibe Match        </h1>
+        
+      </div>
+      <!-- <p class="text-gray-600">Reviewing application for {{ jobDetails.title }}</p> -->
+    </div>
+
+    <!-- Action Buttons Grid -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-4 md:mt-0">
+      <!-- Shortlist Button -->
+      <button  
+      class="group relative flex items-center justify-center px-4 py-2.5 bg-gray-400 text-gray-200 font-medium rounded-xl cursor-not-allowed opacity-50" 
+      disabled
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+      </svg>
+      Ask to Apply
+    </button>
+    
+      <!-- <button   class="group relative flex items-center justify-center px-4 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium rounded-xl hover:shadow-lg transition-all duration-200 overflow-hidden">
+        <div class="absolute inset-0 bg-white/10 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+        </svg>
+        Ask to apply 
+      </button> -->
+
+
+      <!-- Request PVC Button -->
+      <button 
+      class="group relative flex items-center justify-center px-4 py-2.5 bg-gray-400 text-gray-200 font-medium rounded-xl cursor-not-allowed opacity-50" 
+      disabled
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+      </svg>
+      PVC Check
+    </button>
+    
+      <!-- <button class="group relative flex items-center justify-center px-4 py-2.5 bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-medium rounded-xl hover:shadow-lg transition-all duration-200 overflow-hidden">
+        <div class="absolute inset-0 bg-white/10 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+        </svg>
+        PVC Check
+      </button> -->
+
+  
+    </div>
+  </div>
+</header>
+<!-- <div class="lg:col-span-2 bg-white rounded-xl shadow-sm p-6">
+  <h2 class="text-xl font-semibold text-gray-900 mb-6">Candidate Profile</h2> -->
+  <!-- <app-user-profile-share [feature]="'viewprofile'" class="block w-full"></app-user-profile-share> -->
+  <app-user-profile-share  [feature]="'viewprofile'"  class="block w-full"></app-user-profile-share>
+<!-- </div> -->
+  </div>
+</div>
+<!-- Error Message -->
+<ng-template #errorBlock>
+  <div class="text-center py-12">
+    <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-16 w-16 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+    <h2 class="mt-4 text-2xl font-medium text-gray-900">Application Data Not Found</h2>
+    <p class="mt-2 text-gray-600">We couldn't load the application details. Please try again later.</p>
+    <button 
+      (click)="retry()" 
+      class="mt-6 inline-flex items-center px-5 py-2.5 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200">
+      Retry
+    </button>
+  </div>
+</ng-template>
+

@@ -1,0 +1,123 @@
+
+    <div class="signup-container">
+            <!-- Animated Background Elements -->
+            <div class="absolute inset-0 z-0">
+              <div class="absolute top-0 -left-4 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+              <div class="absolute top-0 -right-4 w-72 h-72 bg-yellow-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+              <div class="absolute -bottom-8 left-20 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+            </div>
+      <!-- Initial Role Selection Modal -->
+<!-- Role Selection Modal -->
+
+<div class="fixed inset-0 mt-16 bg-gray-50/50 flex items-start sm:items-center justify-center p-2 sm:p-4 backdrop-blur-sm overflow-y-auto" *ngIf="!roleSelected">
+    <div class="bg-white rounded-xl w-full max-w-4xl mx-auto p-3 sm:p-8 shadow-2xl my-2 sm:my-0" [@fadeIn]>
+      <!-- Header Section - Smaller on mobile -->
+      <div class="text-center mb-3 sm:mb-8">
+        <h2 class="text-xl sm:text-3xl font-bold mb-1 sm:mb-4">Select Your Path</h2>
+        <p class="text-gray-600 text-xs sm:text-base px-2">Choose your role to get started</p>
+      </div>
+  
+      <!-- Role Cards Container - Compact on mobile -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-6 mb-4 sm:mb-8">
+        <!-- Job Seeker Card - Optimized for mobile -->
+        <div class="group relative bg-white rounded-lg border-2 border-gray-100 p-3 sm:p-6 cursor-pointer transition-all duration-300 hover:border-blue-500 hover:-translate-y-1"
+             [class.border-blue-500]="selectedRole === 'jobseeker'"
+             [class.bg-blue-50]="selectedRole === 'jobseeker'"
+             (click)="selectRole('jobseeker')"
+             [@cardHover]>
+          <div class="flex flex-row sm:flex-col items-start sm:items-center">
+            <!-- Icon and Title in row on mobile -->
+            <div class="flex items-center mb-2 sm:mb-4">
+              <div class="w-10 h-10 sm:w-16 sm:h-16 rounded-full bg-gray-50 flex items-center justify-center mr-3 sm:mr-0">
+                <i class="fas fa-user-tie text-blue-600 text-lg sm:text-2xl"></i>
+              </div>
+              <div class="sm:text-center sm:mt-4">
+                <h3 class="text-base sm:text-xl font-semibold text-gray-800">Job Seeker</h3>
+                <p class="text-gray-600 text-xs sm:text-base hidden sm:block">Find your dream job</p>
+              </div>
+            </div>
+            
+            <!-- Features list - Compact on mobile -->
+            <ul class="space-y-1 sm:space-y-2 w-full text-left mt-2">
+              <li class="flex items-center text-gray-700 text-xs sm:text-base">
+                <i class="fas fa-check text-green-500 mr-2 text-xs sm:text-base"></i>
+                <span>Search jobs</span>
+              </li>
+              <li class="flex items-center text-gray-700 text-xs sm:text-base">
+                <i class="fas fa-check text-green-500 mr-2 text-xs sm:text-base"></i>
+                <span>Build profile</span>
+              </li>
+              <li class="flex items-center text-gray-700 text-xs sm:text-base">
+                <i class="fas fa-check text-green-500 mr-2 text-xs sm:text-base"></i>
+                <span>Get matched</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+  
+        <!-- Employer Card - Optimized for mobile -->
+        <div class="group relative bg-white rounded-lg border-2 border-gray-100 p-3 sm:p-6 cursor-pointer transition-all duration-300 hover:border-blue-500 hover:-translate-y-1"
+             [class.border-blue-500]="selectedRole === 'employer'"
+             [class.bg-blue-50]="selectedRole === 'employer'"
+             (click)="selectRole('employer')"
+             [@cardHover]>
+          <div class="flex flex-row sm:flex-col items-start sm:items-center">
+            <!-- Icon and Title in row on mobile -->
+            <div class="flex items-center mb-2 sm:mb-4">
+              <div class="w-10 h-10 sm:w-16 sm:h-16 rounded-full bg-gray-50 flex items-center justify-center mr-3 sm:mr-0">
+                <i class="fas fa-building text-purple-600 text-lg sm:text-2xl"></i>
+              </div>
+              <div class="sm:text-center sm:mt-4">
+                <h3 class="text-base sm:text-xl font-semibold text-gray-800">Employer</h3>
+                <p class="text-gray-600 text-xs sm:text-base hidden sm:block">Find top talent</p>
+              </div>
+            </div>
+            
+            <!-- Features list - Compact on mobile -->
+            <ul class="space-y-1 sm:space-y-2 w-full text-left mt-2">
+              <li class="flex items-center text-gray-700 text-xs sm:text-base">
+                <i class="fas fa-check text-green-500 mr-2 text-xs sm:text-base"></i>
+                <span>Post jobs</span>
+              </li>
+              <li class="flex items-center text-gray-700 text-xs sm:text-base">
+                <i class="fas fa-check text-green-500 mr-2 text-xs sm:text-base"></i>
+                <span>Search candidates</span>
+              </li>
+              <li class="flex items-center text-gray-700 text-xs sm:text-base">
+                <i class="fas fa-check text-green-500 mr-2 text-xs sm:text-base"></i>
+                <span>Track applications</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Action Button - Full width on mobile -->
+      <div class="text-center">
+        <button 
+          class="w-full sm:w-auto sm:min-w-[200px] px-4 sm:px-6 py-2.5 sm:py-3 bg-blue-600 text-white rounded-full font-semibold transition-all duration-300 flex items-center justify-center mx-auto text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-700 hover:scale-105"
+          [disabled]="!selectedRole"
+          (click)="continueToSignup()"
+          [@buttonPulse]>
+          <span>Continue</span>
+          <i class="fas fa-arrow-right ml-2 text-sm sm:text-base"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+      <!-- Signup Form -->
+      <div class="signup-form-container" *ngIf="roleSelected" [@fadeIn]>
+        <!-- <div class="form-header">
+          <h2>Sign Up as {{ selectedRole === 'jobseeker' ? 'Job Seeker' : 'Employer' }}</h2>
+          <button class="back-btn" (click)="goBack()">
+            <i class="fas fa-arrow-left"></i> Back
+          </button>
+        </div> -->
+       
+        <app-register *ngIf="selectedRole === 'jobseeker'">
+           
+        </app-register>
+        <app-employer-register *ngIf="selectedRole === 'employer'"></app-employer-register>
+      </div>
+    </div>

@@ -1,0 +1,47 @@
+<div class="help-container">
+    <h1>Help & Support</h1>
+    <p>If you have any questions or need assistance, we're here to help. Check out our FAQs or contact our support team.</p>
+    <ul>
+      <li><a href="/faq">Frequently Asked Questions</a></li>
+      <li><a href="/contact">Contact Support</a></li>
+      <li>
+        <div class="bg-white text-gray-800 py-16">
+          <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+              <h1 class="text-3xl font-bold text-gray-900">Help & Support</h1>
+              <p class="mt-4 text-lg leading-6 text-gray-600">Fill out the form below to submit your query. We will get back to you as soon as possible.</p>
+            </div>
+        
+            <form [formGroup]="helpForm" (ngSubmit)="onSubmit()" class="mt-8 space-y-6">
+              <div class="rounded-md shadow-sm -space-y-px">
+                <div class="py-2">
+                  <label for="name" class="sr-only">Name</label>
+                  <input id="name" name="name" type="text" formControlName="name" class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Name">
+                </div>
+                <div class="py-2">
+                  <label for="email" class="sr-only">Email</label>
+                  <input id="email" name="email" type="email" formControlName="email" class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Email">
+                </div>
+                <div class="py-2">
+                  <label for="phone" class="sr-only">Phone Number</label>
+                  <input id="phone" name="phone" type="text" formControlName="phone" class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Phone Number">
+                </div>
+                <div class="py-2">
+                  <label for="query" class="sr-only">Query</label>
+                  <textarea id="query" name="query" formControlName="query" class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Your Query" rows="4"></textarea>
+                </div>
+              </div>
+        
+              <div>
+                <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  Submit
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+        
+      </li>
+    </ul>
+  </div>
+  <app-footer></app-footer>

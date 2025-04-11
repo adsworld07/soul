@@ -1,0 +1,863 @@
+<!-- company-profile.component.html -->
+<div class="min-h-screen transition-colors duration-300" >
+
+    <!-- Header with Banner and Logo -->
+    <div class="relative">
+      <div class="h-40 w-full overflow-hidden">
+        <img src="https://i.pinimg.com/736x/5b/6d/89/5b6d898ea8c28da41931e20616869b58.jpg" alt="Company Banner" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+      </div>
+      
+      <div class="container mx-auto px-4">
+        <div class="relative -mt-20 flex flex-col md:flex-row md:items-end pb-4">
+            <div class="bg-white rounded-lg p-1 shadow-lg w-32 h-32 flex items-center justify-center relative">
+                <img
+                  *ngIf="profilePicUrl"
+                  [src]="profilePicUrl"
+                  alt="Company Logo"
+                  class="w-full h-full object-cover rounded-lg"
+                />
+                <button
+                  (click)="openProfilePicModal()"
+                  class="absolute bottom-0 right-0 transform translate-x-1/2 translate-y-1/2 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors"
+                >
+                  <i class="fas fa-camera text-gray-600"></i>
+                </button>
+              </div>
+              
+          <div class="md:ml-6 mt-4 md:mt-0 flex-1">
+            <h1 class="text-3xl md:text-4xl font-bold text-white">{{ user.username }}</h1>
+            <p class="text-lg text-white/90 mt-2">{{ company.tagline }}</p>
+          </div>
+          <div class="mt-4 md:mt-0 flex space-x-2">
+        
+        <button
+        (click)="edit()"
+        class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-all flex items-center gap-2"
+      >
+        <i class="fas fa-edit"></i>
+        Edit Profile
+      </button>
+          </div>
+          <!-- <div class="mt-4 md:mt-0 flex space-x-2">
+            <button 
+              class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-6 py-2 rounded-full transition-all duration-300 transform hover:scale-105 flex items-center space-x-2 shadow-lg"
+            >
+              <span>Follow</span>
+            </button>
+          
+            <button 
+              (click)="toggleDarkMode()" 
+              class="bg-gray-100  p-2 rounded-full text-gray-500  hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors duration-300"
+            >
+              <svg *ngIf="!isDarkMode" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+              </svg>
+              <svg *ngIf="isDarkMode" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+            </button>
+          </div> -->
+        </div>
+      </div>
+    </div>
+  
+    <!-- Key Company Info Tabs -->
+    <div class="border-b  sticky top-0 z-10 bg-white  shadow-sm">
+      <div class="container mx-auto px-4">
+        <nav class="flex overflow-x-auto py-3 space-x-8 text-sm md:text-base">
+            <a href="#about" class="font-medium text-indigo-600 dark:text-indigo-400 border-b-2 border-indigo-600 dark:border-indigo-400 pb-3 px-1">About</a>
+            
+            <a href="#" 
+               class="font-medium text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 pb-3 px-1"
+               (click)="navigateToJobs($event)">
+               Jobs
+            </a>
+          
+            <!-- <a href="#culture" class="font-medium text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 pb-3 px-1">Culture & Benefits</a> -->
+            <!-- <a href="#gallery" class="font-medium text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 pb-3 px-1">Gallery</a> -->
+            <!-- <a href="#reviews" class="font-medium text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400 pb-3 px-1">Reviews</a> -->
+          </nav>
+          
+      </div>
+    </div>
+  
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+      <!-- About Section -->
+      <section id="about" class="mb-16">
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="md:col-span-2">
+            <h2 class="text-2xl font-bold mb-6">About {{ user.name }}</h2>
+            <p class="text-gray-700  mb-4">{{ company.description }}</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+              <div class="bg-indigo-50  p-4 rounded-lg">
+                <h3 class="font-bold text-lg mb-2 text-indigo-700 ">Our Mission</h3>
+                <p class="text-gray-700 ">{{ company.mission }}</p>
+              </div>
+              <div class="bg-purple-50  p-4 rounded-lg">
+                <h3 class="font-bold text-lg mb-2 text-purple-700 ">Our Vision</h3>
+                <p class="text-gray-700 ">{{ coreValues }}</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="bg-gray-50  p-6 rounded-lg shadow-sm h-fit">
+            <h3 class="text-xl font-bold mb-4">Company Details</h3>
+            <div class="space-y-4">
+              <div class="flex items-start">
+                <div class="w-8 text-indigo-600 ">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-500 ">Industry</p>
+                  <p class="font-medium">{{ company.industry }}</p>
+                </div>
+              </div>
+              
+              <div class="flex items-start">
+                <div class="w-8 text-indigo-600 ">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-500 ">Location</p>
+                  <p class="font-medium">{{ company.location }}</p>
+                </div>
+              </div>
+              
+              <div class="flex items-start">
+                <div class="w-8 text-indigo-600 ">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                  </svg>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-500 ">Company Size</p>
+                  <p class="font-medium">{{ company.size }}</p>
+                </div>
+              </div>
+              
+              <div class="flex items-start">
+                <div class="w-8 text-indigo-600 ">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-500 ">Founded</p>
+                  <p class="font-medium">{{ company.founded }}</p>
+                </div>
+              </div>
+              
+              <div class="flex items-start">
+                <div class="w-8 text-indigo-600 ">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-500 ">Website</p>
+                  <a href="{{ company.website }}" target="_blank" class="font-medium text-indigo-600  hover:underline">{{ company.website }}</a>
+                </div>
+              </div>
+              
+              <div class="pt-2">
+                <p class="text-sm text-gray-500  mb-2">Social Media</p>
+                <div class="flex space-x-3">
+                   
+                        <a
+                          *ngIf="linkedin"
+                          [href]="linkedin"
+                          target="_blank"
+                          class="flex items-center gap-3 p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors"
+                        >
+                          <i class="fab fa-linkedin text-blue-600 text-2xl"></i>
+                          <span class="text-gray-700"></span>
+                        </a>
+                       
+                        <a
+                          *ngIf="facebook"
+                          [href]="facebook"
+                          target="_blank"
+                          class="flex items-center gap-3 p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors"
+                        >
+                          <i class="fab fa-instagram-square  text-2xl"></i>
+                          <span class="text-gray-700"></span>
+                        </a>
+                        <a
+                          *ngIf="twitter"
+                          [href]="twitter"
+                          target="_blank"
+                          class="flex items-center gap-3 p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors"
+                        >
+                          <i class="fab fa-twitter text-blue-400 text-2xl"></i>
+                          <span class="text-gray-700"></span>
+                        </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Job Openings Section -->
+      <!-- <section id="jobs" class="mb-16">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-2xl font-bold">Open Positions</h2>
+          <div class="flex space-x-2">
+            <button 
+              [ngClass]="{'bg-indigo-100  text-indigo-600 ': selectedJobFilter === 'all', 'bg-gray-100  text-gray-600 ': selectedJobFilter !== 'all'}"
+              class="px-3 py-1 rounded-full text-sm font-medium"
+              (click)="filterJobs('all')"
+            >
+              All
+            </button>
+            <button 
+              [ngClass]="{'bg-indigo-100  text-indigo-600 ': selectedJobFilter === 'remote', 'bg-gray-100  text-gray-600 ': selectedJobFilter !== 'remote'}"
+              class="px-3 py-1 rounded-full text-sm font-medium"
+              (click)="filterJobs('remote')"
+            >
+              Remote
+            </button>
+            <button 
+              [ngClass]="{'bg-indigo-100  text-indigo-600 ': selectedJobFilter === 'fulltime', 'bg-gray-100  text-gray-600 ': selectedJobFilter !== 'fulltime'}"
+              class="px-3 py-1 rounded-full text-sm font-medium"
+              (click)="filterJobs('fulltime')"
+            >
+              Full-time
+            </button>
+            <button 
+            [ngClass]="{'bg-indigo-100  text-indigo-600 ': selectedJobFilter === 'parttime', 'bg-gray-100  text-gray-600 ': selectedJobFilter !== 'parttime'}"
+            class="px-3 py-1 rounded-full text-sm font-medium"
+            (click)="filterJobs('parttime')"
+          >
+            Part-time
+          </button>
+        </div>
+      </div>
+      
+      <div class="bg-white  rounded-lg shadow-sm overflow-hidden">
+        <div class="grid grid-cols-1 divide-y divide-gray-200 ">
+          <div *ngFor="let job of filteredJobs" class="p-6 hover:bg-gray-50  transition-colors duration-200">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+              <div>
+                <h3 class="text-xl font-semibold text-gray-900 ">{{ job.title }}</h3>
+                <div class="mt-2 flex flex-wrap items-center text-sm text-gray-500  space-x-4">
+                  <span class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                    {{ job.department }}
+                  </span>
+                  <span class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    {{ job.location }}
+                  </span>
+                  <span class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    {{ job.type }}
+                  </span>
+                  <span class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    Posted {{ job.posted }}
+                  </span>
+                </div>
+              </div>
+              <div class="mt-4 md:mt-0">
+                <button class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors duration-300 transform hover:scale-105">
+                  Apply Now
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+        <div *ngIf="filteredJobs.length === 0" class="p-8 text-center">
+          <p class="text-gray-500 ">No positions match your filter criteria.</p>
+        </div>
+      </div>
+      
+      <div class="mt-6 flex justify-center">
+        <button class="text-indigo-600  font-medium flex items-center hover:underline">
+          <span>Browse all open positions</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </button>
+      </div>
+    </section> -->
+    
+    <!-- Culture & Benefits Section -->
+    <!-- <section id="culture" class="mb-16">
+      <h2 class="text-2xl font-bold mb-6">Culture & Benefits</h2>
+      
+      <div class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl p-8 mb-10 relative overflow-hidden">
+        <div class="absolute top-0 right-0 opacity-10">
+          <svg width="400" height="400" viewBox="0 0 200 200">
+            <path fill="white" d="M37,-51.2C50.6,-44.9,65.9,-38.1,71.5,-26.5C77.2,-14.9,73.1,1.5,66.4,15.1C59.7,28.7,50.4,39.6,39.5,50.4C28.6,61.2,16.2,71.9,0.7,71C-14.8,70.1,-29.5,57.6,-43.5,45.8C-57.5,33.9,-70.7,22.6,-74.3,8.5C-77.9,-5.6,-72,-22.6,-61.2,-32.9C-50.4,-43.2,-34.7,-46.8,-21.9,-53.3C-9.1,-59.7,0.7,-69,11.8,-68.1C22.9,-67.2,23.5,-57.4,37,-51.2Z" transform="translate(100 100)" />
+          </svg>
+        </div>
+        
+        <div class="relative">
+          <h3 class="text-3xl font-bold text-white mb-4">Life at {{ company.name }}</h3>
+          <p class="text-white/90 text-lg max-w-2xl mb-6">We're building a workplace where brilliant minds can collaborate, innovate, and thrive. Our culture is built on transparency, inclusion, and a shared passion for solving hard problems.</p>
+          <button class="bg-white text-indigo-600 hover:bg-gray-100 font-medium px-6 py-2 rounded-full shadow-lg transition-colors duration-300">
+            Learn More About Our Culture
+          </button>
+        </div>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div *ngFor="let benefit of benefits" class="bg-white  p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
+          <div class="w-12 h-12 bg-indigo-100  rounded-lg flex items-center justify-center mb-4">
+            <svg *ngIf="benefit.icon === 'globe'" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600 " fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <svg *ngIf="benefit.icon === 'calendar'" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600 " fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            <svg *ngIf="benefit.icon === 'heart'" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600 " fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+            </svg>
+            <svg *ngIf="benefit.icon === 'book'" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600 " fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
+            <svg *ngIf="benefit.icon === 'trending-up'" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600 " fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+            </svg>
+            <svg *ngIf="benefit.icon === 'award'" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600 " fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold mb-2">{{ benefit.title }}</h3>
+          <p class="text-gray-600 ">{{ benefit.description }}</p>
+        </div>
+      </div>
+    </section> -->
+    
+    <!-- Gallery Section -->
+    <!-- <section id="gallery" class="mb-16">
+      <h2 class="text-2xl font-bold mb-6">Gallery</h2>
+      
+      <div class="relative bg-gray-100  rounded-lg overflow-hidden">
+      
+        <div class="aspect-w-16 aspect-h-9">
+          <div *ngIf="galleryItems[currentGalleryIndex].type === 'image'" class="w-full h-full">
+            <img [src]="galleryItems[currentGalleryIndex].url" [alt]="galleryItems[currentGalleryIndex].caption" class="w-full h-full object-cover">
+          </div>
+          <div *ngIf="galleryItems[currentGalleryIndex].type === 'video'" class="w-full h-full">
+            <video [src]="galleryItems[currentGalleryIndex].url" controls class="w-full h-full object-cover"></video>
+          </div>
+        </div>
+        
+        
+        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-6">
+          <p class="text-white text-lg">{{ galleryItems[currentGalleryIndex].caption }}</p>
+        </div>
+        
+       
+        <button (click)="prevGalleryItem()" class="absolute top-1/2 -translate-y-1/2 left-4 bg-black/30 hover:bg-black/50 text-white rounded-full p-2 transition-colors duration-300">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <button (click)="nextGalleryItem()" class="absolute top-1/2 -translate-y-1/2 right-4 bg-black/30 hover:bg-black/50 text-white rounded-full p-2 transition-colors duration-300">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
+      
+     
+      <div class="mt-4 grid grid-cols-5 gap-2">
+        <button 
+          *ngFor="let item of galleryItems; let i = index" 
+          (click)="setGalleryItem(i)"
+          class="aspect-w-16 aspect-h-9 overflow-hidden rounded-md"
+          [ngClass]="{'ring-2 ring-indigo-600 dark:ring-indigo-400': i === currentGalleryIndex}"
+        >
+          <img [src]="item.url" alt="Thumbnail" class="w-full h-full object-cover">
+        </button>
+      </div>
+    </section> -->
+    
+    <!-- Reviews Section -->
+    <!-- <section id="reviews" class="mb-16">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
+        <div>
+          <h2 class="text-2xl font-bold">Employee Reviews</h2>
+          <div class="flex items-center mt-2">
+            <div class="flex">
+              <svg *ngFor="let i of [1,2,3,4,5]" 
+                [ngClass]="{'text-yellow-400': i <= company.overallRating, 'text-gray-300 dark:text-gray-600': i > company.overallRating}"
+                xmlns="http://www.w3.org/2000/svg" 
+                class="h-5 w-5" 
+                viewBox="0 0 20 20" 
+                fill="currentColor"
+              >
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+            </div>
+            <p class="ml-2 text-gray-600 ">{{ company.overallRating }} out of 5 ({{ company.totalReviews }} reviews)</p>
+          </div>
+        </div>
+        <button class="mt-4 md:mt-0 bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-6 py-2 rounded-lg transition-colors duration-300">
+          Write a Review
+        </button>
+      </div>
+      
+      <div class="space-y-6">
+        <div *ngFor="let review of reviews" class="bg-white  rounded-lg shadow-sm p-6">
+          <div class="flex justify-between items-start">
+            <div>
+              <div class="flex items-center">
+                <div class="flex">
+                  <svg *ngFor="let i of [1,2,3,4,5]" 
+                    [ngClass]="{'text-yellow-400': i <= review.rating, 'text-gray-300 dark:text-gray-600': i > review.rating}"
+                    xmlns="http://www.w3.org/2000/svg" 
+                    class="h-5 w-5" 
+                    viewBox="0 0 20 20" 
+                    fill="currentColor"
+                  >
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                </div>
+                <h3 class="ml-2 text-lg font-semibold">{{ review.title }}</h3>
+              </div>
+              <p class="text-gray-600  text-sm mt-1">{{ review.position }} • {{ review.date }}</p>
+            </div>
+            <button class="text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
+              </svg>
+            </button>
+          </div>
+          
+          <p class="mt-4 text-gray-700 ">{{ review.comment }}</p>
+          
+          <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="bg-green-50 dark:bg-green-900/20 p-3 rounded">
+              <h4 class="font-medium text-green-700 dark:text-green-400 text-sm">Pros</h4>
+              <p class="mt-1 text-gray-700 ">{{ review.pros }}</p>
+            </div>
+            <div class="bg-red-50 dark:bg-red-900/20 p-3 rounded">
+              <h4 class="font-medium text-red-700 dark:text-red-400 text-sm">Cons</h4>
+              <p class="mt-1 text-gray-700 ">{{ review.cons }}</p>
+            </div>
+          </div>
+          
+          <div class="mt-4 flex justify-between items-center text-sm">
+            <div class="text-gray-500 ">
+              Was this review helpful?
+            </div>
+            <div class="flex space-x-3">
+              <button class="flex items-center text-gray-500  hover:text-gray-700 dark:hover:text-gray-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
+                </svg>
+                <span>Yes</span>
+              </button>
+              <button class="flex items-center text-gray-500  hover:text-gray-700 dark:hover:text-gray-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14H5.236a2 2 0 01-1.789-2.894l3.5-7A2 2 0 018.736 3h4.018a2 2 0 01.485.06l3.76.94m-7 10v5a2 2 0 002 2h.095c.5 0 .905-.405.905-.905 0-.714.211-1.412.608-2.006L17 13V4m-7 10h2m5-10h2a2 2 0 012 2v6a2 2 0 01-2 2h-2.5" />
+                </svg>
+                <span>No</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-6 flex justify-center">
+        <button class="text-indigo-600  font-medium flex items-center hover:underline">
+          <span>View all {{ company.totalReviews }} reviews</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </button>
+      </div>
+    </section> -->
+    
+    <!-- CTA Section -->
+    <section class="rounded-xl bg-gradient-to-br from-indigo-600 to-purple-700 p-8 md:p-12 text-center text-white">
+      <h2 class="text-3xl md:text-4xl font-bold mb-4">Join Our Team</h2>
+      <p class="text-lg text-white/90 max-w-2xl mx-auto mb-8">Be part of a team that's building innovative solutions and making a real impact in the world. We're always looking for talented individuals to join us.</p>
+      <div class="flex flex-col sm:flex-row justify-center gap-4">
+        <button (click)="navigateToJobs($event)" class="bg-white text-indigo-600 hover:bg-gray-100 font-medium px-8 py-3 rounded-full shadow-lg transition-colors duration-300">
+          Browse Open Positions
+        </button>
+        <button class="bg-indigo-500 hover:bg-indigo-400 text-white font-medium px-8 py-3 rounded-full shadow-lg transition-colors duration-300">
+          Contact Us
+        </button>
+      </div>
+    </section>
+  </main>
+  
+ 
+</div>
+
+<div 
+  *ngIf="editMode" 
+  class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto p-20 items-center justify-center h-full w-full z-50"
+>
+<!-- class="fixed inset-0 bg-black/50 backdrop-blur-sm flex  justify-center z-50 p-4 overflow-y-auto" -->
+
+  <div 
+    class="w-full max-w-4xl bg-white rounded-2xl shadow-2xl overflow-hidden animate-fade-in-up"
+  >
+    <div class="bg-gradient-to-r from-blue-600 to-indigo-700 p-6">
+      <h3 class="text-3xl font-extrabold text-white">Edit Company Profile</h3>
+    </div>
+
+    <form class="p-8 space-y-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Basic Information Section -->
+        <div class="md:col-span-2 bg-gray-50 p-4 rounded-lg">
+          <h4 class="text-xl font-semibold text-gray-800 mb-4">Basic Information</h4>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label 
+                for="username" 
+                class="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Company Name
+              </label>
+              <input
+                type="text"
+                id="username"
+                [(ngModel)]="username"
+                name="username"
+                class="w-full px-4 py-2.5 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300"
+              />
+            </div>
+            <div>
+              <label 
+                for="industry" 
+                class="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Industry
+              </label>
+              <input
+                type="text"
+                id="industry"
+                [(ngModel)]="industry"
+                name="industry"
+                class="w-full px-4 py-2.5 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300"
+              />
+            </div>
+            <div>
+              <label 
+                for="location" 
+                class="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Location
+              </label>
+              <input
+                type="text"
+                id="location"
+                [(ngModel)]="location"
+                name="location"
+                class="w-full px-4 py-2.5 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact Information Section -->
+        <div class="md:col-span-2 bg-gray-50 p-4 rounded-lg">
+          <h4 class="text-xl font-semibold text-gray-800 mb-4">Contact Information</h4>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label 
+                for="email" 
+                class="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                [(ngModel)]="email"
+                name="email"
+                class="w-full px-4 py-2.5 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300"
+              />
+            </div>
+            <div>
+              <label 
+                for="phone" 
+                class="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Phone
+              </label>
+              <input
+                type="text"
+                id="phone"
+                [(ngModel)]="phone"
+                name="phone"
+                class="w-full px-4 py-2.5 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300"
+              />
+            </div>
+            <div>
+              <label 
+                for="companyWebsite" 
+                class="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Company Website
+              </label>
+              <input
+                type="url"
+                id="companyWebsite"
+                [(ngModel)]="companyWebsite"
+                name="companyWebsite"
+                class="w-full px-4 py-2.5 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- About and Mission Section -->
+        <div class="md:col-span-2 bg-gray-50 p-4 rounded-lg">
+          <h4 class="text-xl font-semibold text-gray-800 mb-4">Company Description</h4>
+          <div class="grid grid-cols-1 gap-4">
+            <div>
+              <label 
+                for="aboutCompany" 
+                class="block text-sm font-medium text-gray-700 mb-2"
+              >
+                About the Company
+              </label>
+              <textarea
+                id="aboutCompany"
+                [(ngModel)]="aboutCompany"
+                name="aboutCompany"
+                rows="4"
+                class="w-full px-4 py-2.5 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300"
+              ></textarea>
+            </div>
+            <div>
+              <label 
+                for="companyMission" 
+                class="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Company Mission
+              </label>
+              <textarea
+                id="companyMission"
+                [(ngModel)]="companyMission"
+                name="companyMission"
+                rows="4"
+                class="w-full px-4 py-2.5 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Social Media and Team Section -->
+        <div>
+          <div class="bg-gray-50 p-4 rounded-lg mb-6">
+            <h4 class="text-xl font-semibold text-gray-800 mb-4">Social Media</h4>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label 
+                  for="linkedin" 
+                  class="block text-sm font-medium text-gray-700 mb-2"
+                >
+                  LinkedIn
+                </label>
+                <input
+                  type="url"
+                  id="linkedin"
+                  [(ngModel)]="linkedin"
+                  name="linkedin"
+                  class="w-full px-4 py-2.5 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300"
+                />
+              </div>
+              <div>
+                <label 
+                  for="github" 
+                  class="block text-sm font-medium text-gray-700 mb-2"
+                >
+                  GitHub
+                </label>
+                <input
+                  type="url"
+                  id="github"
+                  [(ngModel)]="github"
+                  name="github"
+                  class="w-full px-4 py-2.5 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-gray-50 p-4 rounded-lg">
+            <h4 class="text-xl font-semibold text-gray-800 mb-4">Team Members</h4>
+            <div 
+              *ngFor="let member of teamMembers; let i = index" 
+              class="flex space-x-2 mb-3"
+            >
+              <input
+                type="text"
+                [(ngModel)]="member.name"
+                name="memberName{{ i }}"
+                placeholder="Name"
+                class="flex-grow px-4 py-2.5 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300"
+              />
+              <input
+                type="text"
+                [(ngModel)]="member.position"
+                name="memberPosition{{ i }}"
+                placeholder="Position"
+                class="flex-grow px-4 py-2.5 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300"
+              />
+              <button
+                type="button"
+                (click)="removeTeamMember(i)"
+                class="px-4 py-2.5 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300 focus:outline-none focus:ring-2 focus:ring-red-500"
+              >
+                Remove
+              </button>
+            </div>
+            <button
+              type="button"
+              class="mt-3 w-full px-4 py-2.5 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-300 focus:outline-none focus:ring-2 focus:ring-green-500"
+            >
+              Add Team Member
+            </button>
+          </div>
+        </div>
+
+        <!-- Products and Services Section -->
+        <div class="bg-gray-50 p-4 rounded-lg">
+          <h4 class="text-xl font-semibold text-gray-800 mb-4">Products & Services</h4>
+          <div 
+            *ngFor="let product of productsServices; let i = index" 
+            class="flex space-x-2 mb-3"
+          >
+            <input
+              type="text"
+              [(ngModel)]="productsServices[i]"
+              name="product{{ i }}"
+              class="flex-grow px-4 py-2.5 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300"
+            />
+            <button
+              type="button"
+              (click)="removeProductService(i)"
+              class="px-4 py-2.5 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300 focus:outline-none focus:ring-2 focus:ring-red-500"
+            >
+              Remove
+            </button>
+          </div>
+          <button
+            type="button"
+            class="mt-3 w-full px-4 py-2.5 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-300 focus:outline-none focus:ring-2 focus:ring-green-500"
+          >
+            Add Product/Service
+          </button>
+        </div>
+      </div>
+
+      <div class="flex justify-end space-x-4 mt-8">
+        <button
+          type="button"
+          class="px-6 py-3 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500"
+          (click)="cancel()"
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          (click)="update()"
+        >
+          Update Info
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Enhanced Profile Picture Modal -->
+<div
+  *ngIf="isProfilePicModalOpen"
+  class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 animate-fadeIn"
+>
+  <div
+    class="bg-white rounded-xl p-6 max-w-md w-full mx-4 shadow-2xl transform transition-all"
+  >
+    <h2 class="text-2xl font-bold mb-6 text-gray-800">
+      {{ profilePicExist ? "Update" : "Upload" }} Profile Picture
+    </h2>
+
+    <div class="space-y-4">
+      <div class="flex justify-center">
+        <label
+          for="file-upload"
+          class="cursor-pointer bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 inline-flex items-center"
+        >
+          <i class="fas fa-upload mr-2"></i>
+          Choose File
+        </label>
+        <input
+          id="file-upload"
+          type="file"
+          (change)="onProfilePicSelected($event)"
+          class="hidden"
+        />
+      </div>
+
+      <button
+        class="w-full bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 flex items-center justify-center"
+      >
+        <i class="fab fa-google-drive mr-2"></i>
+        Select from Google Drive
+      </button>
+
+      <ngx-file-drop
+        (onFileDrop)="droppedProfilePic($event)"
+        (onFileOver)="fileOverProfilePic($event)"
+        (onFileLeave)="fileLeaveProfilePic($event)"
+        class="mt-4"
+      >
+        <ng-template ngx-file-drop-content-tmp>
+          <div
+            class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center transition-colors duration-300 hover:border-indigo-500"
+          >
+            <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-3"></i>
+            <p class="text-gray-600 mb-2">Drag & Drop your image here</p>
+            <p class="text-sm text-gray-400">or click to select files</p>
+          </div>
+        </ng-template>
+      </ngx-file-drop>
+
+      <div class="flex justify-end mt-6 space-x-4">
+        <button
+          (click)="closeProfilePicModal()"
+          class="px-4 py-2 text-gray-600 hover:text-gray-800 transition duration-300 focus:outline-none"
+        >
+          Cancel
+        </button>
+        <button
+          (click)="uploadProfilePic()"
+          class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+        >
+          Upload
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

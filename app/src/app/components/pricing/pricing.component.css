@@ -1,0 +1,39 @@
+.pricing-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+  }
+  
+  .pricing-container h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+  }
+  
+  .plan {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    background-color: #fff;
+  }
+  
+  .plan h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+  }
+  
+  .plan p {
+    font-size: 1.2em;
+    color: #333;
+  }
+  
+  .plan ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .plan ul li {
+    margin: 10px 0;
+    font-size: 1em;
+  }
+  

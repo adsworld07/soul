@@ -1,0 +1,164 @@
+<div class="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 flex  justify-center relative overflow-hidden py-12 px-4 sm:px-6 lg:px-8">
+  <!-- Animated Background Elements -->
+  <div class="absolute inset-0 z-0">
+    <div class="absolute top-0 -left-4 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+    <div class="absolute top-0 -right-4 w-72 h-72 bg-yellow-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+    <div class="absolute -bottom-8 left-20 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+  </div>
+
+  <!-- Main Container -->
+  <div class="max-w-md w-full  relative">
+    <div class="">
+      <!-- Card container -->
+      <div class="bg-white/80 -lg rounded-2xl shadow-xl p-6 space-y-4">
+     
+
+        <!-- Logo and header -->
+        <div class="text-center space-y-2">
+          <div class="mx-auto w-16 h-16 bg-gradient-to-r from-indigo-100 to-purple-100 rounded-xl flex items-center justify-center transform rotate-12 hover:rotate-0 transition-transform duration-300">
+            <!-- <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4"></path>
+            </svg> -->
+            <img src="../../../assets/hash.png"  alt="">
+          </div>
+          <h2 class="text-2xl font-bold bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent">
+            Create Your Account
+          </h2>
+          <p class="text-sm text-gray-500">Unleash your potential</p>
+        </div>
+
+        <!-- Google Sign Up -->
+        <button 
+          type="button" 
+          (click)="googleLogin()"
+          class="w-full group relative flex items-center justify-center space-x-2 p-2.5 border-2 border-gray-200 rounded-xl hover:border-gray-300 transition-colors duration-300 bg-white/50  hover:bg-white/80"
+        >
+          <img src="../../../assets/images/google-icon-logo-svgrepo-com.svg" alt="Google" class="w-5 h-5">
+          <span class="text-sm text-gray-700">Continue with Google</span>
+        </button>
+
+        <!-- Divider -->
+        <div class="relative">
+          <div class="absolute inset-0 flex items-center">
+            <div class="w-full border-t border-gray-200"></div>
+          </div>
+          <div class="relative flex justify-center text-xs">
+            <span class="px-4 bg-white/80 text-gray-500">or continue with</span>
+          </div>
+        </div>
+
+        <!-- Username exists alert -->
+        <div *ngIf="usernameExists" 
+             class="p-2 rounded-lg bg-red-50 text-red-500 text-xs text-center animate-shake">
+          Username already exists. Please choose another one!
+        </div>
+
+        <!-- Registration Form -->
+        <form #form="ngForm" class="space-y-4">
+          <!-- Email -->
+          <div class="space-y-1">
+            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+            <div class="relative">
+              <input 
+                type="email" 
+                id="email" 
+                name="email"
+                [(ngModel)]="email"
+                #emailId="ngModel"
+                required
+                class="w-full p-2.5 border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 transition-all duration-300 bg-white/50  text-sm"
+                placeholder="Enter your email"
+              >
+              <div *ngIf="emailId.invalid && (emailId.dirty || emailId.touched)" 
+                   class="absolute -bottom-4 left-0 text-red-500 text-xs">
+                Please enter a valid email
+              </div>
+            </div>
+          </div>
+
+          <!-- Username -->
+          <div class="space-y-1">
+            <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+            <div class="relative">
+              <input 
+                type="text" 
+                id="username" 
+                name="username"
+                [(ngModel)]="username"
+                #userName="ngModel"
+                required
+                class="w-full p-2.5 border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 transition-all duration-300 bg-white/50  text-sm"
+                placeholder="Choose a username"
+              >
+              <div *ngIf="userName.invalid && (userName.dirty || userName.touched)" 
+                   class="absolute -bottom-4 left-0 text-red-500 text-xs">
+                Username is required
+              </div>
+            </div>
+          </div>
+
+          <!-- Password -->
+          <div class="space-y-1">
+            <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+            <div class="relative">
+              <input 
+                type="password" 
+                id="password" 
+                name="password"
+                [(ngModel)]="password"
+                #pass="ngModel"
+                required
+                class="w-full p-2.5 border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 transition-all duration-300 bg-white/50  text-sm"
+                placeholder="Create a password"
+              >
+              <div *ngIf="pass.invalid && (pass.dirty || pass.touched)" 
+                   class="absolute -bottom-4 left-0 text-red-500 text-xs">
+                Password is required
+              </div>
+            </div>
+          </div>
+
+          <!-- Verify Password -->
+          <div class="space-y-1">
+            <label for="verifypass" class="block text-sm font-medium text-gray-700">Verify Password</label>
+            <div class="relative">
+              <input 
+                type="password" 
+                id="verifypass" 
+                name="verifyPassword"
+                [(ngModel)]="verifyPassword"
+                #vPass="ngModel"
+                [pattern]="password"
+                required
+                class="w-full p-2.5 border-2 border-gray-200 rounded-xl focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 transition-all duration-300 bg-white/50  text-sm"
+                placeholder="Verify your password"
+              >
+              <div *ngIf="vPass.invalid && (vPass.dirty || vPass.touched)" 
+                   class="absolute -bottom-4 left-0 text-red-500 text-xs">
+                Passwords do not match
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button 
+            type="button"
+            (click)="register(username, password, email); form.reset();"
+            [disabled]="!form.form.valid"
+            class="w-full py-2.5 px-4 rounded-xl text-white font-medium bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02] transition-all duration-300 text-sm"
+          >
+            Create Account
+          </button>
+
+          <!-- Sign In Link -->
+          <p class="text-center text-xs text-gray-600">
+            Already have an account?
+            <a routerLink="/login" class="font-medium text-indigo-600 hover:text-indigo-500 transition-colors duration-300">
+              Sign in
+            </a>
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

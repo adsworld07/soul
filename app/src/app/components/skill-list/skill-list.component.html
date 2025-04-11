@@ -1,0 +1,300 @@
+<div class="container mx-auto px-1 sm:px-6 py-1 sm:py-8 max-w-7xl">
+
+  <div class="bg-gradient-to-br from-slate-50 to-white rounded-2xl  overflow-hidden">
+    <!-- Header with glass morphism -->
+    <div class="p-2 md:p-8  p-6 sm:p-8  border-b border-white/10 flex flex-col md:flex-row justify-between items-center">
+      <h3 class=" font-bold p-2   mb-4 md:mb-0">My Skills</h3>
+ 
+    
+        <div class="flex space-x-2 items-center">
+          
+          <button
+            [disabled]="!canAddSkill || loading"
+            (click)="add()"
+            class="px-6 py-3 bg-white/10 hover:bg-white/20  rounded-full  font-medium transition-all duration-300 flex items-center border border-white/20 shadow-lg hover:shadow-fuchsia-500/20"
+            >
+            <span class="relative flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+              </svg>
+              Add Skill
+            </span>
+          </button>
+        </div>
+      
+
+      <!-- Search & Filter Bar -->
+      <!-- <div *ngIf="skills.length > 0" class="flex flex-col sm:flex-row gap-4 mt-6 sm:mt-8">
+        <div class="relative flex-grow">
+          <input 
+            [(ngModel)]="searchTerm"
+            type="text"
+            placeholder="Search skills..." 
+            class="w-full bg-white/20 text-white placeholder-white/60 border-0 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-white/50 focus:bg-white/30"
+          >
+          <svg class="absolute right-3 top-3 h-5 w-5 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
+        
+        <select 
+          [(ngModel)]="selectedCategory"
+          class="bg-white/20 text-white border-0 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-white/50 focus:bg-white/30"
+        >
+          <option value="">All Categories</option>
+          <option *ngFor="let category of skillCategories" [value]="category">
+            {{category}}
+          </option>
+        </select>
+      </div> -->
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!loading && skills.length === 0" class="flex flex-col items-center justify-center py-16 px-4 text-center" @fadeInOut>
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 text-gray-300 mb-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+      </svg>
+      <h3 class="text-xl font-semibold text-gray-700 ">No skills added yet</h3>
+      <p class="text-gray-500  mt-2 max-w-md">Showcase your expertise by adding professional skills to your profile.</p>
+      <button 
+        (click)="add()"
+        class="mt-6 inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-200"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+        </svg>
+        Add Your First Skill
+      </button>
+    </div>
+
+  
+  </div>
+</div>
+
+
+  <!-- Skills List with animation -->
+  <div class="p-4 sm:p-6 lg:p-8" *ngIf="!loading && skills.length > 0" @slideIn>
+    <!-- Responsive grid with better mobile breakpoints -->
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
+      <!-- Enhanced Responsive Skill Card -->
+      <div *ngFor="let skill of filterBySearch(getSkillsByCategory(selectedCategory))" 
+           class="group bg-white rounded-lg sm:rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100 hover:border-indigo-200 transform hover:-translate-y-1"
+           @fadeInOut>
+        <div class="p-4 sm:p-5">
+          <!-- Category badge with responsive spacing -->
+          <div *ngIf="skill.category" class="mb-2 sm:mb-3">
+            <span class="text-xs font-medium px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full bg-indigo-100 text-indigo-800 inline-flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+              </svg>
+              {{skill.category}}
+            </span>
+          </div>
+  
+          <!-- Flex container for skill header with improved spacing -->
+          <div class="flex justify-between items-start gap-2">
+            <div class="flex-1 min-w-0">
+              <!-- Skill name with responsive text size -->
+              <h3 class="text-base sm:text-lg font-semibold text-gray-800 group-hover:text-indigo-600 transition-colors duration-200 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5 mr-1.5 sm:mr-2 text-indigo-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+                <span class="truncate">{{ skill.skillName }}</span>
+              </h3>
+              
+              <!-- Star rating with responsive spacing -->
+              <div class="flex items-center mt-2 sm:mt-3">
+                <div class="flex space-x-0.5 sm:space-x-1">
+                  <ng-container *ngFor="let star of getStars(skill.skillLevel); let i = index">
+                    <svg [class.text-yellow-400]="star === 1" 
+                         [class.text-gray-300]="star === 0" 
+                         class="h-4 w-4 sm:h-5 sm:w-5 transition-colors duration-200 group-hover:scale-110 transform" 
+                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
+                  </ng-container>
+                </div>
+                <div class="ml-2 text-xs sm:text-sm font-medium text-gray-700 transition-colors duration-200 relative cursor-help"
+                     title="{{getSkillLevelDescription(skill.skillLevel)}}">
+                  Level {{skill.skillLevel}}/10
+                </div>
+              </div>
+            </div>
+            
+           
+          </div>
+   <!-- Action buttons with touch-friendly sizing -->
+   <div class="flex space-x-1 sm:space-x-2">
+    <button (click)="edit(skill, skill._id)"
+            class="p-1.5 sm:p-2 text-indigo-600 hover:bg-indigo-50 rounded-lg transition duration-200 hover:shadow-sm touch-manipulation">
+      <svg class="h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+              d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+      </svg>
+    </button>
+    <button (click)="delete(skill._id)"
+            class="p-1.5 sm:p-2 text-red-500 hover:bg-red-50 rounded-lg transition duration-200 hover:shadow-sm touch-manipulation">
+      <svg class="h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+      </svg>
+    </button>
+  </div>
+          <!-- Progress bar with responsive height -->
+          <div class="mt-3 sm:mt-4">
+            <div class="h-1 sm:h-1.5 bg-gray-200 rounded-full overflow-hidden">
+              <div class="h-full bg-gradient-to-r from-indigo-500 to-violet-500 transition-all duration-300 group-hover:from-indigo-600 group-hover:to-violet-600"
+                   [style.width.%]="(skill.skillLevel / 10) * 100"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="flex justify-center py-16">
+    <div class="flex flex-col items-center">
+      <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-600"></div>
+      <p class="mt-4 text-gray-500">Loading your skills...</p>
+    </div>
+  </div>
+
+
+<!-- Modern Modal with glassmorphism effect -->
+<div *ngIf="addMode || isEditMode" 
+     class="fixed inset-0 bg-black/70  flex items-center justify-center z-50 p-4 sm:p-0"
+     @fadeInOut>
+  <div class="bg-white  rounded-2xl shadow-2xl max-w-md w-full transform transition-all duration-300 scale-100 sm:max-w-lg"
+       @slideIn>
+    <!-- Modal Header -->
+    <div class="p-6 bg-gradient-to-r from-violet-500 to-indigo-600 rounded-t-2xl">
+      <div class="flex items-center justify-between">
+        <h2 class="text-xl font-bold text-white">
+          {{ isEditMode ? 'Edit Skill' : 'Add New Skill' }}
+        </h2>
+        <!-- Close button -->
+        <button (click)="isEditMode ? cancelEdit() : cancelAdd()" 
+                class="p-1 rounded-full bg-white/20 hover:bg-white/30 text-white transition-colors duration-200">
+          <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Form Content -->
+    <form [formGroup]="skillForm" class="p-6 space-y-6">
+      <!-- Skill Name with Autocomplete -->
+      <div class="relative">
+        <label for="skillName" class="block text-sm font-medium text-gray-700  mb-1">
+          Skill Name
+        </label>
+        <div class="relative">
+          <input type="text"
+                 id="skillName"
+                 formControlName="skillName"
+                 class="w-full px-4 py-2.5 bg-gray-50  border border-gray-300  rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200"
+                 [class.border-red-500]="formControls.skillName.touched && formControls.skillName.invalid"
+                 placeholder="Start typing to see suggestions...">
+          
+          <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+            <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
+        </div>
+        
+        <!-- Suggestions Dropdown with animation -->
+        <div *ngIf="showSuggestions && filteredSkills.length > 0"
+             class="absolute z-50 w-full mt-1 bg-white  border border-gray-200  rounded-xl shadow-lg max-h-60 overflow-y-auto"
+             @fadeInOut>
+          <div *ngFor="let skill of filteredSkills"
+               (click)="selectSkill(skill)"
+               class="px-4 py-2.5 hover:bg-indigo-50  cursor-pointer transition-colors duration-150">
+            {{ skill }}
+          </div>
+        </div>
+  
+        <!-- Validation Messages -->
+        <div *ngIf="formControls.skillName.touched && formControls.skillName.invalid" 
+             class="mt-1.5 text-sm text-red-600 ">
+          <span *ngIf="formControls.skillName.errors?.['required']">Skill name is required</span>
+          <span *ngIf="formControls.skillName.errors?.['minlength']">Skill name must be at least 2 characters</span>
+          <span *ngIf="formControls.skillName.errors?.['maxlength']">Skill name cannot exceed 50 characters</span>
+        </div>
+      </div>
+      
+      <!-- Skill Category -->
+      <div>
+        <label for="category" class="block text-sm font-medium text-gray-700  mb-1">
+          Category
+        </label>
+        <select id="category"
+                formControlName="category"
+                class="w-full px-4 py-2.5 bg-gray-50  border border-gray-300  rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200">
+          <option *ngFor="let category of skillCategories" [value]="category">
+            {{ category }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Skill Level with visual indicator -->
+      <div>
+        <label for="skillLevel" class="block text-sm font-medium text-gray-700  mb-1">
+          Skill Level
+        </label>
+        <select id="skillLevel"
+                formControlName="skillLevel"
+                class="w-full px-4 py-2.5 bg-gray-50  border border-gray-300  rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200"
+                [class.border-red-500]="formControls.skillLevel.touched && formControls.skillLevel.invalid">
+          <option value="">Select Level</option>
+          <option *ngFor="let level of skillLevels" [value]="level">
+            {{ level }} - {{ skillLevelDescriptions[level-1] }}
+          </option>
+        </select>
+        
+        <!-- Visual level indicator -->
+        <div *ngIf="formControls.skillLevel.value" class="mt-3">
+          <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+            <div class="h-full bg-gradient-to-r from-indigo-500 to-violet-500"
+                 [style.width.%]="(formControls.skillLevel.value / 10) * 100"></div>
+          </div>
+          <div class="flex justify-between text-xs text-gray-500 mt-1">
+            <span>Beginner</span>
+            <span>Advanced</span>
+            <span>Expert</span>
+          </div>
+        </div>
+        
+        <div *ngIf="formControls.skillLevel.touched && formControls.skillLevel.invalid" 
+             class="mt-1.5 text-sm text-red-600 ">
+          <span *ngIf="formControls.skillLevel.errors?.['required']">Skill level is required</span>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex justify-end space-x-3 mt-8">
+        <button type="button"
+                (click)="isEditMode ? cancelEdit() : cancelAdd()"
+                class="px-4 py-2.5 text-gray-700  bg-gray-100  rounded-xl hover:bg-gray-200  
+                       transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+          Cancel
+        </button>
+        <button type="submit"
+                [disabled]="skillForm.invalid || loading"
+                (click)="isEditMode ? update() : create()"
+                class="px-5 py-2.5 text-white bg-gradient-to-r from-violet-500 to-indigo-600 rounded-xl hover:from-violet-600 hover:to-indigo-700 
+                       transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
+                       disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center">
+          <svg *ngIf="loading" class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          {{ isEditMode ? 'Update' : 'Add' }} Skill
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

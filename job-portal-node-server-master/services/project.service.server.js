@@ -1,0 +1,83 @@
+module.exports = function (app) {
+    var session = require('express-session');
+    app.use(session({
+    resave: false,
+    saveUninitialized: true,
+    duration: 30 * 60 * 1000,
+    activeDuration: 30 * 60 * 1000,
+    secret: 'any string',
+    cookie: {
+        sameSite: 'None',
+        secure: true, // Set this to true if your app is served over HTTPS
+    },
+}));
+
+
+    var projectModel =
+        require('./../models/project/project.model.server');
+
+    app.get('/api/project', findAllProjects);
+    app.get('/api/project/user', findProjectByUserId);
+    app.post('/api/project', createProject);
+    app.put('/api/project/:projectId', updateProject);
+    app.delete('/api/project/:projectId', deleteProject);
+
+
+    function findAllProjects(req, res) {
+        projectModel.findAllProjects()
+            .then(function (projects) {
+                res.send(projects);
+            });
+    }
+
+    function createProject(req, res) {
+        var project = req.body;
+        if (req.session && req.session['user']) {
+            project['user'] = req.session['user']._id;
+            projectModel.createProject(project)
+                .then(function (status) {
+                    res.send(status);
+                });
+        } else {
+            res.send({status: 'session expired'});
+        }
+    }
+
+
+    function findProjectByUserId(req, res) {
+        if (req.session && req.session['user']) {
+            var userId = req.session['user']._id;
+            projectModel.findProjectByUserId(userId)
+                .then(function (project) {
+                    res.json(project);
+                });
+        } else {
+            res.send({status: 'session expired'});
+        }
+    }
+
+    function updateProject(req, res) {
+        var project = req.body;
+        var projectId = req.params['projectId'];
+        if (req.session && req.session['user']) {
+            projectModel.updateProject(projectId,project)
+                .then(function (status) {
+                    res.send(status);
+                });
+        } else {
+            res.send({status: 'session expired'});
+        }
+    }
+
+    function deleteProject(req, res) {
+        if (req.session && req.session['user']) {
+            var id = req.params['projectId'];
+            projectModel.deleteProject(id).then(function (status) {
+                res.send(status);
+            })
+        }
+        else {
+            res.send('session expired');
+        }
+    }
+};

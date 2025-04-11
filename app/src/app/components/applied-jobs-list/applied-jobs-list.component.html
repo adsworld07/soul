@@ -1,0 +1,218 @@
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+  <!-- Main Container with Better Spacing -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Header Section with Improved Visual Hierarchy -->
+    <div class="mb-12">
+      <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8">
+        <div class="space-y-2">
+          <h1 class="text-4xl font-bold text-gray-900 tracking-tight">My Job Applications</h1>
+          <p class="text-lg text-gray-600">Keep track of your career journey</p>
+        </div>
+        
+        <!-- Stats Cards with Enhanced Visual Appeal -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 w-full lg:w-auto">
+          <div class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100 transition-all hover:shadow-md">
+            <p class="text-sm font-medium text-gray-500">Total Applications</p>
+            <p class="mt-3 flex items-baseline">
+              <span class="text-4xl font-bold text-blue-900">{{appliedJobs.length}}</span>
+            </p>
+          </div>
+          
+          <div class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100 transition-all hover:shadow-md">
+            <p class="text-sm font-medium text-gray-500">In Interview</p>
+            <p class="mt-3 flex items-baseline">
+              <span class="text-4xl font-bold text-blue-600">{{getInterviewingCount()}}</span>
+            </p>
+          </div>
+
+          <div class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100 transition-all hover:shadow-md">
+            <p class="text-sm font-medium text-gray-500">Shortlisted</p>
+            <p class="mt-3 flex items-baseline">
+              <span class="text-4xl font-bold text-purple-600">{{getShortlistedCount()}}</span>
+            </p>
+          </div>
+
+          <div class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100 transition-all hover:shadow-md">
+            <p class="text-sm font-medium text-gray-500">Offers</p>
+            <p class="mt-3 flex items-baseline">
+              <span class="text-4xl font-bold text-green-600">{{getAcceptedCount()}}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search and Filter Section with Better Layout -->
+      <div class="mt-10 grid grid-cols-1 sm:grid-cols-12 gap-6">
+        <div class="relative sm:col-span-6">
+          <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+            <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
+          <input 
+            [(ngModel)]="searchTerm"
+            type="text"
+            placeholder="Search jobs or companies..."
+            class="block w-full pl-12 pr-4 py-3.5 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-base"
+          >
+        </div>
+
+        <div class="sm:col-span-4">
+          <select 
+            [(ngModel)]="filterStatus"
+            class="block w-full pl-4 pr-10 py-3.5 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-base"
+          >
+            <option value="all">All Statuses</option>
+            <option value="applied">Applied</option>
+            <option value="shortlisted">Shortlisted</option>
+            <option value="interviewing">Interviewing</option>
+            <option value="accepted">Accepted</option>
+            <option value="rejected">Rejected</option>
+          </select>
+        </div>
+
+        <div class="sm:col-span-2">
+          <button 
+            (click)="refresh()"
+            class="w-full inline-flex items-center justify-center px-6 py-3.5 rounded-2xl text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 text-base font-medium shadow-sm"
+          >
+            <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            Refresh
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Improved Loading State -->
+    <div *ngIf="isLoading" class="flex flex-col items-center justify-center py-16">
+      <div class="animate-spin rounded-full h-16 w-16 border-4 border-gray-200 border-b-blue-600"></div>
+      <p class="mt-6 text-lg text-gray-600 font-medium">Loading your applications...</p>
+    </div>
+
+    <!-- Enhanced Error State -->
+    <div *ngIf="error" class="bg-red-50 border-2 border-red-100 rounded-2xl p-10 text-center max-w-2xl mx-auto">
+      <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-100 mb-6">
+        <svg class="h-8 w-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
+      </div>
+      <h3 class="text-xl font-semibold text-red-800 mb-2">{{error}}</h3>
+      <p class="text-red-600 mb-6">Please try again or contact support if the issue persists.</p>
+      <button 
+        (click)="refresh()"
+        class="inline-flex items-center px-6 py-3 rounded-xl text-base font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-all duration-200"
+      >
+        Try Again
+      </button>
+    </div>
+
+    <!-- Improved Empty State -->
+    <div *ngIf="!isLoading && !error && appliedJobs.length === 0" 
+         class="bg-white border-2 border-gray-100 rounded-2xl text-center py-20 px-6 max-w-2xl mx-auto">
+      <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-blue-100 mb-6">
+        <svg class="h-10 w-10 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+        </svg>
+      </div>
+      <h3 class="text-2xl font-semibold text-gray-900 mb-3">Start Your Job Search</h3>
+      <p class="text-lg text-gray-600 max-w-md mx-auto mb-8">Begin your career journey by exploring and applying to positions that match your skills and aspirations.</p>
+      <button 
+        routerLink="/jobs"
+        class="inline-flex items-center px-8 py-4 rounded-xl text-base font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 shadow-sm"
+      >
+        Browse Open Positions
+        <svg class="ml-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Enhanced Job Cards Grid -->
+    <div *ngIf="!isLoading && !error && appliedJobs.length > 0" 
+         class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
+      
+      <!-- Improved Job Card -->
+      <div *ngFor="let job of getFilteredJobs()" 
+           class="group bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-200 overflow-hidden">
+        <!-- Card Header -->
+        <div class="p-8">
+          <div class="flex items-start justify-between mb-6">
+            <div class="flex items-center space-x-4">
+              <div class="flex-shrink-0 w-14 h-14 flex items-center justify-center rounded-xl bg-gray-100 text-gray-800 font-bold text-2xl">
+                {{job.company.charAt(0)}}
+              </div>
+              <div>
+                <h3 class="text-xl font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+                  {{job.title}}
+                </h3>
+                <p class="text-base text-gray-600">{{job.company}}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Status Badge -->
+          <div class="flex items-center justify-end mb-6">
+            <span [class]="'inline-flex items-center px-4 py-1.5 rounded-full text-sm font-medium ' + getStatusColor(job.status)">
+              {{job.status | titlecase}}
+            </span>
+          </div>
+
+          <!-- Job Details with Better Spacing -->
+          <div class="space-y-5">
+            <div class="flex items-center text-gray-600">
+              <svg class="h-5 w-5 mr-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              <span class="text-base">{{job.location}}</span>
+            </div>
+
+            <div class="flex items-center text-gray-600">
+              <svg class="h-5 w-5 mr-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              <span class="text-base">Applied {{getApplicationDuration(job.dateApplied)}}</span>
+            </div>
+
+            <!-- Interview Alert -->
+            <div *ngIf="getUpcomingInterview(job.interviews) as interview"
+                 class="flex items-center p-4 bg-blue-50 rounded-xl border border-blue-100">
+              <svg class="h-6 w-6 text-blue-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              <span class="text-base font-medium text-blue-700">
+                Interview scheduled for {{formatInterviewDate(interview.startDateTime)}}
+              </span>
+            </div>
+            <!-- Assignment Badge -->
+            <div *ngIf="job.assignment" 
+                 class="flex items-center text-gray-600">
+              <svg class="h-5 w-5 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              <span class="text-sm">Assignment {{job.assignment.status | titlecase}}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card Footer -->
+        <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
+          <button 
+            (click)="viewJobDetails(job._id)"
+            class="w-full inline-flex items-center justify-center px-4 py-2.5 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+          >
+            View Details
+           
+
+       
+            <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

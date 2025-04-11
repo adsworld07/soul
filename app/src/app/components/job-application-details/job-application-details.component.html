@@ -1,0 +1,86 @@
+<!-- app/src/app/components/job-application-details/job-application-details.component.html -->
+<div class="container mx-4 my-6">
+    <!-- Tabs Section -->
+    <div class="tabs flex  mb-6 border-gray-300">
+        <button (click)="selectTab('applicationDetails')" 
+                [class.active]="selectedTab === 'applicationDetails'" 
+                class="tab-button py-2 px-4 text-gray-600 hover:text-blue-500 transition-colors duration-300">
+            Application Details
+        </button>
+        <button (click)="selectTab('jobDescription')" 
+                [class.active]="selectedTab === 'jobDescription'" 
+                class="tab-button border border-gray-300 py-2 px-4 text-gray-600 hover:text-blue-500 transition-colors duration-300">
+            Job Description
+        </button>
+    </div>
+
+    <!-- Application Details Tab -->
+    <div *ngIf="selectedTab === 'applicationDetails'">
+        <!-- Basic Application Details -->
+        <div class="card p-4 mb-4 border rounded-lg shadow-sm">
+            <h2 class="text-2xl font-bold mb-4">{{ application?.title }}</h2>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <p><strong>Company:</strong> {{ application?.company }}</p>
+                    <p><strong>Location:</strong> {{ application?.location }}</p>
+                    <p><strong>Status:</strong> 
+                        <span [ngClass]="{
+                            'text-yellow-600': application?.status === 'interviewing',
+                            'text-green-600': application?.status === 'accepted',
+                            'text-red-600': application?.status === 'rejected'
+                        }">
+                            {{ application?.status | titlecase }}
+                        </span>
+                    </p>
+                </div>
+                <div>
+                    <p><strong>Date Applied:</strong> {{ application?.dateApplied | date:'mediumDate' }} 
+                        ({{ getDaysAgo(application?.dateApplied) }} days ago)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Assignment Section -->
+        <div *ngIf="application?.assignment" class="card p-4 mb-4 border rounded-lg shadow-sm">
+            <h3 class="text-xl font-bold mb-3">Assignment</h3>
+            <div class="space-y-2">
+                <p><strong>Title:</strong> {{ application?.assignment.title }}</p>
+                <p><strong>Status:</strong> {{ application?.assignment.status | titlecase }}</p>
+                <p><strong>Description:</strong> {{ application?.assignment.description }}</p>
+                <p><strong>Deadline:</strong> {{ application?.assignment.deadline | date:'medium' }}</p>
+                <p><strong>Days Remaining:</strong> {{ application?.assignment.deadlineDays }}</p>
+                <a [href]="application?.assignment.pdfLink" 
+                   target="_blank" 
+                   class="text-blue-600 hover:underline">
+                    View Assignment PDF
+                </a>
+            </div>
+        </div>
+
+        <!-- Interviews Section -->
+        <div *ngIf="application?.interviews?.length" class="card p-4 border rounded-lg shadow-sm">
+            <h3 class="text-xl font-bold mb-3">Interviews</h3>
+            <div class="space-y-4">
+                <div *ngFor="let interview of application?.interviews" 
+                     class="p-3 border rounded-lg">
+                    <div class="grid grid-cols-2 gap-2">
+                        <p><strong>Date & Time:</strong> {{ interview.startDateTime | date:'medium' }}</p>
+                        <p><strong>Duration:</strong> {{ interview.duration }} minutes</p>
+                        <p><strong>Status:</strong> {{ interview.status | titlecase }}</p>
+                        <p><strong>Interviewer:</strong> {{ interview.interviewerEmail }}</p>
+                    </div>
+                    <a [href]="interview.meetLink" 
+                       target="_blank" 
+                       class="mt-2 inline-block text-blue-600 hover:underline">
+                        Join Meeting
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Job Description Tab -->
+    <div *ngIf="selectedTab === 'jobDescription'">
+        <app-view-job [jobIdInput]="application?.jobPosting" > </app-view-job>
+    </div>
+</div>

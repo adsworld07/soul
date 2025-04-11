@@ -1,0 +1,78 @@
+/* Container styles */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+body {
+  font-family: 'Inter', sans-serif;
+}
+/* Heading styles */
+h2, h4 {
+  color: #333;
+}
+
+/* Job details styles */
+.row {
+  margin-bottom: 20px;
+}
+
+/* Apply and Save buttons styles */
+.btn-primary, .btn-success {
+  margin-right: 10px;
+}
+
+/* Applied Users table styles */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+thead {
+  background-color: #f2f2f2;
+}
+
+/* Social contacts icons styles */
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+i {
+  font-size: 20px;
+  margin-right: 5px;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+
+  th, td {
+    font-size: 14px;
+  }
+
+  .btn-primary, .btn-success {
+    margin-bottom: 10px;
+    width: 100%;
+  }
+
+  /* Make social contacts stack on smaller screens */
+  li {
+    display: block;
+    margin-bottom: 5px;
+  }
+}

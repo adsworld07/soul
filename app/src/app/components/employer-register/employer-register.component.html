@@ -1,0 +1,176 @@
+<div class="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 flex justify-center relative overflow-hidden py-12 px-4 sm:px-6 lg:px-8">
+  <!-- Animated Background Elements -->
+  <div class="absolute inset-0 z-0">
+    <div class="absolute top-0 -left-4 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+    <div class="absolute top-0 -right-4 w-72 h-72 bg-yellow-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+    <div class="absolute -bottom-8 left-20 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+  </div>
+
+  <!-- Main Container -->
+  <div class="max-w-md w-full relative">
+    <div class="bg-white/80 rounded-2xl shadow-xl p-6 space-y-4">
+      <!-- Logo and header -->
+      <div class="text-center mb-8">
+        <div class="mx-auto w-16 h-16 bg-gradient-to-r from-indigo-100 to-purple-100 rounded-xl flex items-center justify-center transform rotate-12 hover:rotate-0 transition-transform duration-300">
+          <img src="../../../assets/hash.png" alt="">
+        </div>
+        <h2 class="text-2xl font-bold bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent">
+          Create Employer Account
+        </h2>
+        <p class="text-sm text-gray-500">Start hiring top talent today</p>
+      </div>
+
+      <!-- Google Sign Up -->
+      <!-- <button 
+        type="button" 
+        (click)="googleLogin()"
+        class="w-full group relative flex items-center justify-center space-x-2 p-2.5 border-2 border-gray-200 rounded-xl hover:border-gray-300 transition-colors duration-300 bg-white/50 hover:bg-white/80"
+      >
+        <img src="../../../assets/images/google-icon-logo-svgrepo-com.svg" alt="Google" class="w-5 h-5">
+        <span class="text-sm text-gray-700">Continue with Google</span>
+      </button> -->
+
+      <!-- Divider -->
+      <div class="relative">
+        <div class="absolute inset-0 flex items-center">
+          <div class="w-full border-t border-gray-200"></div>
+        </div>
+        <div class="relative flex justify-center text-xs">
+          <span class="px-4 bg-white/80 text-gray-500">or continue with</span>
+        </div>
+      </div>
+
+      <!-- Registration Form -->
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-2">
+        <!-- Floating Label Inputs with Creative Design -->
+        <div class="relative rounded-md -space-y-px">
+          <input 
+            id="username" 
+            type="text" 
+            formControlName="username"
+            class="peer w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition duration-300"
+            placeholder=" "
+            [class.border-red-500]="isCompanyNameInvalid()"
+          >
+          <label 
+            for="username" 
+            class="absolute left-4 -top-3 bg-white px-2 text-xs font-medium text-gray-600 peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-focus:-top-3 peer-focus:text-xs peer-focus:text-purple-600 transition-all duration-300"
+          >
+            Company Name
+          </label>
+          <div *ngIf="isCompanyNameInvalid()" class="text-red-500 text-xs mt-1 pl-4 animate-bounce">
+            <div *ngIf="username?.errors?.['required']">Company name is required</div>
+            <div *ngIf="username?.errors?.['minlength']">Company name must be at least 2 characters</div>
+          </div>
+        </div>
+        <!-- Email Input -->
+        <div class="relative">
+          <input 
+            id="email" 
+            type="email" 
+            formControlName="email"
+            class="peer w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition duration-300"
+            placeholder=" "
+            [class.border-red-500]="isEmailInvalid()"
+          >
+          <label 
+            for="email" 
+            class="absolute left-4 -top-3 bg-white px-2 text-xs font-medium text-gray-600 peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-focus:-top-3 peer-focus:text-xs peer-focus:text-purple-600 transition-all duration-300"
+          >
+            Email Address
+          </label>
+          <div *ngIf="isEmailInvalid()" class="text-red-500 text-xs mt-1 pl-4 animate-bounce">
+            <div *ngIf="email?.errors?.['required']">Email is required</div>
+            <div *ngIf="email?.errors?.['email']">Invalid email format</div>
+          </div>
+        </div>
+        <!-- Phone Input -->
+        <div class="relative">
+          <input 
+            id="phone" 
+            type="tel" 
+            formControlName="phone"
+            class="peer w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition duration-300"
+            placeholder=" "
+            [class.border-red-500]="isPhoneInvalid()"
+          >
+          <label 
+            for="phone" 
+            class="absolute left-4 -top-3 bg-white px-2 text-xs font-medium text-gray-600 peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-focus:-top-3 peer-focus:text-xs peer-focus:text-purple-600 transition-all duration-300"
+          >
+            Phone Number
+          </label>
+          <div *ngIf="isPhoneInvalid()" class="text-red-500 text-xs mt-1 pl-4 animate-bounce">
+            <div *ngIf="phone?.errors?.['required']">Phone number is required</div>
+            <div *ngIf="phone?.errors?.['pattern']">Invalid phone number (10 digits required)</div>
+          </div>
+        </div>
+        <!-- Password Input -->
+        <div class="relative">
+          <input 
+            id="password" 
+            type="password" 
+            formControlName="password"
+            class="peer w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition duration-300"
+            placeholder=" "
+            [class.border-red-500]="isPasswordInvalid()"
+          >
+          <label 
+            for="password" 
+            class="absolute left-4 -top-3 bg-white px-2 text-xs font-medium text-gray-600 peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-focus:-top-3 peer-focus:text-xs peer-focus:text-purple-600 transition-all duration-300"
+          >
+            Password
+          </label>
+          <div *ngIf="isPasswordInvalid()" class="text-red-500 text-xs mt-1 pl-4 animate-bounce">
+            <div *ngIf="password?.errors?.['required']">Password is required</div>
+            <div *ngIf="password?.errors?.['minlength']">Password must be at least 8 characters</div>
+            <div *ngIf="password?.errors?.['pattern']">Include letters, numbers, and special characters</div>
+          </div>
+        </div>
+        <!-- Confirm Password Input -->
+      <div class="relative">
+  <input 
+    id="confirmPassword" 
+    type="password" 
+    formControlName="confirmPassword"
+    class="peer w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition duration-300"
+    placeholder=" "
+    [class.border-red-500]="isConfirmPasswordInvalid()" 
+  >
+  <label 
+    for="confirmPassword" 
+    class="absolute left-4 -top-3 bg-white px-2 text-xs font-medium text-gray-600 peer-placeholder-shown:top-4 peer-placeholder-shown:text-base peer-focus:-top-3 peer-focus:text-xs peer-focus:text-purple-600 transition-all duration-300"
+  >
+    Confirm Password
+  </label>
+  <!-- Error Message -->
+  <div *ngIf="isConfirmPasswordInvalid()" class="text-red-500 text-xs mt-1 pl-4 animate-bounce">
+    Passwords do not match
+  </div>
+</div>
+        <!-- Submit Button with Gradient and Hover Effect -->
+        <button 
+          type="submit" 
+          [disabled]="registerForm.invalid || submitting"
+          class="w-full py-3 px-6 bg-gradient-to-r from-purple-700 to-indigo-700 text-white font-bold rounded-xl shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-opacity-50"
+          [class.opacity-50]="registerForm.invalid || submitting"
+        >
+          <span class="flex items-center justify-center">
+            <span *ngIf="!submitting">Create Account</span>
+            <span *ngIf="submitting" class="flex items-center">
+              <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Creating Account...
+            </span>
+          </span>
+        </button>
+        <!-- Error Message with Subtle Animation -->
+        <div *ngIf="registrationError" class="text-center text-red-500 text-sm animate-pulse">
+          {{ registrationError }}
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

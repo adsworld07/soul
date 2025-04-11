@@ -1,0 +1,122 @@
+<!-- Resume Section -->
+<div class="bg-white rounded-xl shadow-sm p-6 mb-6">
+  <h2 class="text-xl font-bold text-gray-900 mb-4">Resume Manager</h2>
+
+  <!-- Empty State -->
+  <div *ngIf="files.length === 0" class="text-center py-6">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+    </svg>
+    <p class="mt-2 text-gray-500">No resume uploaded yet</p>
+    <div class="mt-4">
+      <button (click)="openModal()" class="cursor-pointer bg-indigo-50 hover:bg-indigo-100 text-indigo-600 px-4 py-2 rounded-lg transition inline-block">
+        Upload Resume
+      </button>
+    </div>
+  </div>
+
+  <!-- Resume Display -->
+  <div *ngFor="let file of files" class="text-center">
+    <div class="border rounded-lg p-4">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+      </svg>
+      <p class="mt-2 text-gray-700 font-medium truncate">
+        {{ file.filename }}
+      </p>
+      <p class="text-xs text-gray-500">
+        Last updated: {{ file.uploadDate | date }}
+      </p>
+    </div>
+    <div class="mt-4 flex justify-center space-x-2">
+      <button 
+        (click)="downloadPdf(file.filename, file.contentType)" 
+        class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg transition text-sm"
+      >
+        View Resume
+      </button>
+      <button
+        (click)="downloadPdf(file.filename, file.contentType)" 
+        class="bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-4 py-2 rounded-lg transition text-sm"
+      >
+        Download
+      </button>
+      <div class="relative inline-block">
+        <button
+          (click)="openModal()" 
+          class="bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-4 py-2 rounded-lg transition text-sm inline-block"
+        >
+          Update
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Upload Modal -->
+<div 
+  *ngIf="isModalOpen" 
+  class="fixed inset-0 flex items-center justify-center bg-black/50 z-50"
+  [@fadeInOut]
+>
+  <div 
+    class="bg-white rounded-xl shadow-lg p-6 w-full max-w-lg relative"
+    [@slideUpDown]
+  >
+    <!-- Modal Header -->
+    <div class="flex justify-between items-center mb-6">
+      <h3 class="text-xl font-bold text-gray-900">Upload Resume</h3>
+      <button 
+        (click)="closeModal()" 
+        class="p-2 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100 transition-colors duration-200"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Upload Options -->
+    <div class="space-y-4">
+      <!-- Drag & Drop Zone -->
+      <ngx-file-drop 
+        (onFileDrop)="dropped($event)"
+        [multiple]="false"
+        accept=".pdf,.doc,.docx"
+      >
+        <ng-template ngx-file-drop-content-tmp>
+          <div class="flex flex-col items-center justify-center p-8 border-2 border-dashed border-indigo-300 rounded-lg bg-indigo-50/50 transition-all duration-300 hover:bg-indigo-50">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-indigo-500 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+            </svg>
+            <p class="text-indigo-600 font-medium text-sm">Drop your resume here or click to browse</p>
+            <p class="text-gray-500 text-xs mt-2">Supported formats: PDF, DOC, DOCX</p>
+          </div>
+        </ng-template>
+      </ngx-file-drop>
+
+      <!-- Alternative Upload Option -->
+      <div>
+        <label class="w-full">
+          <input 
+            type="file" 
+            (change)="onFileSelected($event)" 
+            accept=".pdf,.doc,.docx"
+            class="hidden" 
+          />
+          <span class="block px-4 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors duration-200 text-center cursor-pointer">
+            Browse Files
+          </span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Upload Progress (if needed) -->
+    <div *ngIf="isUploading" class="mt-6">
+      <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+        <div class="h-full bg-indigo-600 rounded-full animate-progress"></div>
+      </div>
+      <p class="text-sm text-gray-500 mt-2">Uploading resume...</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,592 @@
+<!-- app/src/app/components/personal-info/personal-info.component.html -->
+
+ <!-- Modern Profile Form -->
+ <div
+ class="fixed inset-0 bg-black/30 flex mb-16 mt-4 items-center justify-center p-2 z-50"
+ *ngIf="editMode"
+>
+ <div
+   class="bg-white rounded-xl border-0 shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto"
+ >
+   <!-- Header -->
+   <div class="p-6 border-b">
+     <h2
+       class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent"
+     >
+       {{
+         currentStep === 1
+           ? "Tell us about yourself ✨"
+           : "Professional Details 💼"
+       }}
+     </h2>
+     <!-- Progress Bar -->
+     <div class="flex gap-2 mt-4">
+       <div
+         [class]="
+           'h-1 flex-1 rounded-full ' +
+           (currentStep === 1 ? 'bg-purple-600' : 'bg-gray-200')
+         "
+       ></div>
+       <div
+         [class]="
+           'h-1 flex-1 rounded-full ' +
+           (currentStep === 2 ? 'bg-purple-600' : 'bg-gray-200')
+         "
+       ></div>
+     </div>
+   </div>
+
+   <!-- Form Content -->
+   <div class="p-6">
+     <form [formGroup]="personalInfoForm" (ngSubmit)="save()">
+       <!-- Step 1: Personal Details -->
+       <div *ngIf="currentStep === 1" class="grid md:grid-cols-2 gap-6">
+         <!-- Username -->
+         <div class="space-y-2">
+           <label for="username" class="text-sm font-medium text-gray-700"
+             >Username</label
+           >
+           <div class="relative">
+             <input
+               type="text"
+               id="username"
+               formControlName="username"
+               placeholder="@cooluser"
+               class="w-full px-4 py-2.5 border-2 border-gray-200 focus:border-purple-500 rounded-xl outline-none transition-colors"
+               [ngClass]="{
+                 'border-red-300':
+                   personalInfoForm.get('username')?.invalid &&
+                   personalInfoForm.get('username')?.touched
+               }"
+             />
+             <div
+               *ngIf="
+                 personalInfoForm.get('username')?.invalid &&
+                 personalInfoForm.get('username')?.touched
+               "
+               class="text-red-500 text-sm mt-1"
+             >
+               Username is required (min 3 characters)
+             </div>
+           </div>
+         </div>
+
+         <!-- Email -->
+         <div class="space-y-2">
+           <label for="email" class="text-sm font-medium text-gray-700"
+             >Email</label
+           >
+           <input
+             type="email"
+             id="email"
+             formControlName="email"
+             placeholder="you@example.com"
+             class="w-full px-4 py-2.5 border-2 border-gray-200 focus:border-purple-500 rounded-xl outline-none transition-colors"
+             [ngClass]="{
+               'border-red-300':
+                 personalInfoForm.get('email')?.invalid &&
+                 personalInfoForm.get('email')?.touched
+             }"
+           />
+           <div
+             *ngIf="
+               personalInfoForm.get('email')?.invalid &&
+               personalInfoForm.get('email')?.touched
+             "
+             class="text-red-500 text-sm mt-1"
+           >
+             Please enter a valid email
+           </div>
+         </div>
+
+         <!-- First Name -->
+         <div class="space-y-2">
+           <label for="firstName" class="text-sm font-medium text-gray-700"
+             >First Name</label
+           >
+           <input
+             type="text"
+             id="firstName"
+             formControlName="firstName"
+             placeholder="John"
+             class="w-full px-4 py-2.5 border-2 border-gray-200 focus:border-purple-500 rounded-xl outline-none transition-colors"
+             [ngClass]="{
+               'border-red-300':
+                 personalInfoForm.get('firstName')?.invalid &&
+                 personalInfoForm.get('firstName')?.touched
+             }"
+           />
+         </div>
+
+         <!-- Last Name -->
+         <div class="space-y-2">
+           <label for="lastName" class="text-sm font-medium text-gray-700"
+             >Last Name</label
+           >
+           <input
+             type="text"
+             id="lastName"
+             formControlName="lastName"
+             placeholder="Doe"
+             class="w-full px-4 py-2.5 border-2 border-gray-200 focus:border-purple-500 rounded-xl outline-none transition-colors"
+             [ngClass]="{
+               'border-red-300':
+                 personalInfoForm.get('lastName')?.invalid &&
+                 personalInfoForm.get('lastName')?.touched
+             }"
+           />
+         </div>
+         <!-- Phone -->
+         <div class="form-group">
+           <label for="phone">Phone</label>
+           <input
+             type="tel"
+             id="phone"
+             formControlName="phone"
+             class="form-control"
+             [ngClass]="{
+               'is-invalid':
+                 personalInfoForm.get('phone')?.invalid &&
+                 personalInfoForm.get('phone')?.touched
+             }"
+           />
+           <div
+             *ngIf="
+               personalInfoForm.get('phone')?.invalid &&
+               personalInfoForm.get('phone')?.touched
+             "
+             class="text-red-500"
+           >
+             Please enter a valid 10-digit phone number
+           </div>
+         </div>
+
+         <!-- Date of Birth -->
+         <div class="form-group">
+           <label for="dateOfBirth">Date of Birth</label>
+           <input
+             type="date"
+             id="dateOfBirth"
+             formControlName="dateOfBirth"
+             class="form-control"
+             [ngClass]="{
+               'is-invalid':
+                 personalInfoForm.get('dateOfBirth')?.invalid &&
+                 personalInfoForm.get('dateOfBirth')?.touched
+             }"
+           />
+           <div
+             *ngIf="
+               personalInfoForm.get('dateOfBirth')?.invalid &&
+               personalInfoForm.get('dateOfBirth')?.touched
+             "
+             class="text-red-500"
+           >
+             Date of Birth is required
+           </div>
+         </div>
+
+         <!-- Gender -->
+         <div class="form-group">
+           <label for="gender">Gender</label>
+           <select
+             id="gender"
+             formControlName="gender"
+             class="form-control"
+             [ngClass]="{
+               'is-invalid':
+                 personalInfoForm.get('gender')?.invalid &&
+                 personalInfoForm.get('gender')?.touched
+             }"
+           >
+             <option value="">Select Gender</option>
+             <option
+               *ngFor="let option of genderOptions"
+               [value]="option.value"
+             >
+               {{ option.label }}
+             </option>
+           </select>
+           <div
+             *ngIf="
+               personalInfoForm.get('gender')?.invalid &&
+               personalInfoForm.get('gender')?.touched
+             "
+             class="text-red-500"
+           >
+             Gender is required
+           </div>
+         </div>
+
+         <!-- Marital Status -->
+         <div class="form-group">
+           <label for="maritalStatus">Marital Status</label>
+           <select
+             id="maritalStatus"
+             formControlName="maritalStatus"
+             class="form-control"
+             [ngClass]="{
+               'is-invalid':
+                 personalInfoForm.get('maritalStatus')?.invalid &&
+                 personalInfoForm.get('maritalStatus')?.touched
+             }"
+           >
+             <option value="">Select Marital Status</option>
+             <option
+               *ngFor="let option of maritalStatusOptions"
+               [value]="option.value"
+             >
+               {{ option.label }}
+             </option>
+           </select>
+           <div
+             *ngIf="
+               personalInfoForm.get('maritalStatus')?.invalid &&
+               personalInfoForm.get('maritalStatus')?.touched
+             "
+             class="text-red-500"
+           >
+             Marital Status is required
+           </div>
+         </div>
+         <!-- Languages Known -->
+         <div class="col-span-2 space-y-2">
+           <label class="text-sm font-medium text-gray-700"
+             >Languages Known</label
+           >
+           <div class="flex items-center space-x-2 mb-2">
+             <select
+               #languageSelect
+               class="w-full px-4 py-2.5 border-2 border-gray-200 focus:border-purple-500 rounded-xl outline-none"
+             >
+               <option value="">Select Language</option>
+               <option *ngFor="let lang of languageList" [value]="lang">
+                 {{ lang }}
+               </option>
+             </select>
+             <button
+               type="button"
+               (click)="
+                 addLanguage(languageSelect.value);
+                 languageSelect.value = ''
+               "
+               class="px-4 py-2.5 bg-purple-100 text-purple-600 rounded-xl hover:bg-purple-200 transition-colors"
+             >
+               Add
+             </button>
+           </div>
+           <div class="flex flex-wrap gap-2">
+             <span
+               *ngFor="
+                 let lang of personalInfoForm.value.languagesKnown;
+                 let i = index
+               "
+               class="px-3 py-1 bg-purple-100 text-purple-800 rounded-full flex items-center space-x-1"
+             >
+               {{ lang }}
+               <button
+                 type="button"
+                 (click)="removeLanguage(i)"
+                 class="ml-2 text-purple-600 hover:text-purple-800"
+               >
+                 ×
+               </button>
+             </span>
+           </div>
+         </div>
+       </div>
+
+       <!-- Step 2: Professional Details -->
+       <div *ngIf="currentStep === 2" class="grid md:grid-cols-2 gap-6">
+         <!-- Current Location -->
+         <div class="space-y-2">
+           <label
+             for="currentState"
+             class="text-sm font-medium text-gray-700"
+             >Current State</label
+           >
+           <select
+             id="currentState"
+             formControlName="currentState"
+             (change)="loadCities($event.target.value)"
+             class="w-full px-4 py-2.5 border-2 border-gray-200 focus:border-purple-500 rounded-xl outline-none"
+           >
+             <option value="">Select State</option>
+             <option *ngFor="let state of states" [value]="state.isoCode">
+               {{ state.name }}
+             </option>
+           </select>
+         </div>
+
+         <div class="space-y-2">
+           <label
+             for="currentCity"
+             class="text-sm font-medium text-gray-700"
+             >Current City</label
+           >
+           <select
+             id="currentCity"
+             formControlName="currentCity"
+             class="w-full px-4 py-2.5 border-2 border-gray-200 focus:border-purple-500 rounded-xl outline-none"
+           >
+             <option value="">Select City</option>
+             <option *ngFor="let city of cities" [value]="city.name">
+               {{ city.name }}
+             </option>
+           </select>
+         </div>
+
+         <!-- Social Profiles -->
+         <div class="col-span-2 space-y-4">
+           <label class="text-sm font-medium text-gray-700"
+             >Social Profiles</label
+           >
+           <div class="grid md:grid-cols-3 gap-4">
+             <!-- GitHub -->
+             <div
+               class="flex items-center space-x-2 p-3 border-2 border-gray-200 rounded-xl"
+             >
+               <i class="fab fa-github text-gray-600"></i>
+               <input
+                 type="url"
+                 formControlName="github"
+                 placeholder="GitHub profile"
+                 class="w-full border-0 focus:ring-0 outline-none"
+               />
+             </div>
+
+             <!-- LinkedIn -->
+             <div
+               class="flex items-center space-x-2 p-3 border-2 border-gray-200 rounded-xl"
+             >
+               <i class="fab fa-linkedin text-blue-600"></i>
+               <input
+                 type="url"
+                 formControlName="linkedin"
+                 placeholder="LinkedIn profile"
+                 class="w-full border-0 focus:ring-0 outline-none"
+               />
+             </div>
+
+             <!-- Twitter -->
+             <div
+               class="flex items-center space-x-2 p-3 border-2 border-gray-200 rounded-xl"
+             >
+               <i class="fab fa-twitter text-blue-400"></i>
+               <input
+                 type="url"
+                 formControlName="twitter"
+                 placeholder="Twitter profile"
+                 class="w-full border-0 focus:ring-0 outline-none"
+               />
+             </div>
+           </div>
+         </div>
+
+         <!-- CTC Information -->
+         <div class="space-y-2">
+           <label
+             for="currentCTC"
+             class="text-sm font-medium text-gray-700"
+             >Current CTC (in lakhs)</label
+           >
+           <input
+             type="number"
+             id="currentCTC"
+             formControlName="currentCTC"
+             placeholder="₹ Amount in lakhs"
+             class="w-full px-4 py-2.5 border-2 border-gray-200 focus:border-purple-500 rounded-xl outline-none"
+           />
+         </div>
+
+         <div class="space-y-2">
+           <label
+             for="preferredCTC"
+             class="text-sm font-medium text-gray-700"
+             >Expected CTC (in lakhs)</label
+           >
+           <input
+             type="number"
+             id="preferredCTC"
+             formControlName="preferredCTC"
+             placeholder="₹ Amount in lakhs"
+             class="w-full px-4 py-2.5 border-2 border-gray-200 focus:border-purple-500 rounded-xl outline-none"
+           />
+         </div>
+         <div class="space-y-2">
+           <label
+             for="preferredCTC"
+             class="text-sm font-medium text-gray-700"
+             >Total experience</label
+           >
+           <input
+             type="number"
+             id="totalExp"
+             formControlName="totalExp"
+             placeholder="In years"
+             class="w-full px-4 py-2.5 border-2 border-gray-200 focus:border-purple-500 rounded-xl outline-none"
+           />
+         </div>
+       </div>
+
+       <!-- Navigation Buttons -->
+       <div class="flex justify-between pt-6 border-t mb-4">
+         <button
+           *ngIf="currentStep > 1"
+           type="button"
+           (click)="previousStep()"
+           class="px-6 py-2.5 border-2 border-gray-200 rounded-xl hover:border-gray-300 transition-colors flex items-center gap-2"
+         >
+           <i class="fas fa-arrow-left"></i> Back
+         </button>
+         <button
+         type="button"
+         (click)="cancel()"
+         class="px-6 py-2.5 border-2 border-gray-200 rounded-xl hover:border-gray-300 transition-colors flex items-center gap-2"
+       >
+         <i class="fas fa-times"></i> Cancel
+       </button>
+         <button
+           *ngIf="currentStep < 2"
+           type="button"
+           (click)="nextStep()"
+           class="px-6 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl hover:opacity-90 transition-opacity ml-auto flex items-center gap-2"
+         >
+           Next <i class="fas fa-arrow-right"></i>
+         </button>
+
+         <button
+           *ngIf="currentStep === 2"
+           type="submit"
+           class="px-6 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl hover:opacity-90 transition-opacity ml-auto"
+         >
+           Complete Profile ✨
+         </button>
+       </div>
+     </form>
+   </div>
+ </div>
+</div>
+
+
+
+
+
+ <!-- Enhanced Edit Bio Modal -->
+ <div
+ *ngIf="isEditBioModalOpen"
+ class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 animate-fadeIn"
+>
+ <div
+   class="bg-white rounded-xl p-6 max-w-md w-full mx-4 shadow-2xl transform transition-all"
+ >
+   <h2 class="text-2xl font-bold mb-4 text-gray-800">Edit Bio</h2>
+   <textarea
+     class="w-full h-32 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-none"
+     [ngModel]="tagline"
+     (ngModelChange)="onTaglineChange($event)"
+     placeholder="Add your bio here..."
+   ></textarea>
+   <div class="text-sm text-gray-500 mt-2 text-right">
+     {{ tagline.length || 0 }}/200
+   </div>
+   <div class="flex justify-end mt-6 space-x-4">
+     <button
+       (click)="closeEditBioModal()"
+       class="px-4 py-2 text-gray-600 hover:text-gray-800 transition duration-300 focus:outline-none"
+     >
+       Cancel
+     </button>
+     <button
+       (click)="saveBio()"
+       [disabled]="tagline.length > 200"
+
+       class="px-6 py-2 rounded-lg transition duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+       [ngClass]="{
+         'bg-indigo-600 text-white hover:bg-indigo-700': tagline.length <= 200,
+         'bg-gray-300 text-gray-500 cursor-not-allowed': tagline.length > 200
+       }"
+     >
+       Save Changes
+     </button>
+   </div>
+ </div>
+</div>
+
+
+ <!-- Enhanced Profile Picture Modal -->
+ <div
+   *ngIf="isProfilePicModalOpen"
+   class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 animate-fadeIn"
+ >
+   <div
+     class="bg-white rounded-xl p-6 max-w-md w-full mx-4 shadow-2xl transform transition-all"
+   >
+     <h2 class="text-2xl font-bold mb-6 text-gray-800">
+       {{ profilePicExist ? "Update" : "Upload" }} Profile Picture
+     </h2>
+
+     <div class="space-y-4">
+       <div class="flex justify-center">
+         <label
+           for="file-upload"
+           class="cursor-pointer bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 inline-flex items-center"
+         >
+           <i class="fas fa-upload mr-2"></i>
+           Choose File
+         </label>
+         <input
+           id="file-upload"
+           type="file"
+           (change)="onProfilePicSelected($event)"
+           class="hidden"
+         />
+       </div>
+
+       <!-- <button
+         
+         class="w-full bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 flex items-center justify-center"
+       >
+         <i class="fab fa-google-drive mr-2"></i>
+         Select from Google Drive
+       </button> -->
+
+       <ngx-file-drop
+         (onFileDrop)="droppedProfilePic($event)"
+         (onFileOver)="fileOverProfilePic($event)"
+         (onFileLeave)="fileLeaveProfilePic($event)"
+         class="mt-4"
+       >
+         <ng-template ngx-file-drop-content-tmp>
+           <div
+             class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center transition-colors duration-300 hover:border-indigo-500"
+           >
+             <i
+               class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-3"
+             ></i>
+             <p class="text-gray-600 mb-2">Drag & Drop your image here</p>
+             <p class="text-sm text-gray-400">or click to select files</p>
+           </div>
+         </ng-template>
+       </ngx-file-drop>
+
+       <div class="flex justify-end mt-6 space-x-4">
+         <button
+           (click)="closeProfilePicModal()"
+           class="px-4 py-2 text-gray-600 hover:text-gray-800 transition duration-300 focus:outline-none"
+         >
+           Cancel
+         </button>
+         <button
+           (click)="uploadProfilePic()"
+           class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+         >
+           Upload
+         </button>
+       </div>
+     </div>
+   </div>
+ </div>
+
+<!-- Add this where you want the share modal to appear -->
+<app-share-modal [userProfileLink]="userProfileLink"></app-share-modal>
